@@ -1,7 +1,5 @@
 <?php
 class Cloud_vision{
-	$api_key = "";
-
 	function get_label($path){
 		echo "get_labelが動いたよ";
 		$api_key = "AIzaSyBsmdrzulnPMj2B9Zf9yEmy3e6kEgqgkPM";	

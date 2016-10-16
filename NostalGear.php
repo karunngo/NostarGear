@@ -10,6 +10,7 @@ $save_url ="";
 $label_arr="";
 $label_arr_j="";
 $image = "";
+$thing_name="";
 
 /*テスト用
 if($_SERVER["REQUEST_METHOD"]=="POST"){
@@ -30,14 +31,11 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 		echo $label_arr_j;
 		$label_arr = json_decode($label_arr_j,true);
 
-
-		echo $label_arr;
-
-		$thing_name = $label_arr[`responses`][`labelAnnotations`][0][`description`]; 		
+		$thing_name = $label_arr["responses"]["labelAnnotations"]["description"]; 		
 
 
         	//sqlでパス取得
-		$sql = `SELECT path from NostalGear WHERE name = "` . $thing_name .`" ORDER BY date DESC LIMIT 1`;
+		$sql = "SELECT path from NostalGear WHERE name = \"" . $thing_name ."\" ORDER BY date DESC LIMIT 1";
         	$mysql->query($sql);
 		$sql_result = $mysql->fetch();
 
