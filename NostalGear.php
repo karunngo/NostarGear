@@ -9,8 +9,10 @@ $cloud_vison =new Cloud_vision;
 $save_url ="";
 $label_arr="";
 
+/*テスト用
 if($_SERVER["REQUEST_METHOD"]=="POST"){
-        //テスト用if ($_POST["type"]=="vision"){
+	if ($_POST["type"]=="vision"){
+*/
 		$image = $_FILES["file"]["name"];
 
 		//ファイル一時保存
@@ -43,11 +45,11 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 			$vision_path = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/" . $$sql_result[0][`path`];
 			return $vision_path;
 		}
-	//テスト用}
-
-
+/*テスト用
+	}
 }else{
 echo "error! post以外の通信です";
 }
+*/
 ?>
 
