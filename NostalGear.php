@@ -47,7 +47,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 
 }else{
-echo "error! post以外の通信です"";
+echo "error! post以外の通信です";
 }
 ?>
 
