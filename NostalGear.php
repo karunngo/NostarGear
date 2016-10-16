@@ -4,10 +4,12 @@ require_once("mysql.php");
 require_once("cloud_vision.php");
 
 $mysql =new MySQL;
-$cloud_vison =new Cloud_vision;
+$cloud_vision =new Cloud_vision;
 
 $save_url ="";
 $label_arr="";
+$label_arr_j="";
+$image = "";
 
 /*テスト用
 if($_SERVER["REQUEST_METHOD"]=="POST"){
@@ -24,7 +26,9 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 	
 		//名前をgetする
-		$label_arr = json_decode($cloud_vision->get_label($save_url),true);
+		$label_arr_j = $cloud_vision ->get_label($save_url);
+		echo $label_arr_j;
+		$label_arr = json_decode($label_arr_j,true);
 
 
 		echo $label_arr;

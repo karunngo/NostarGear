@@ -3,7 +3,7 @@ class Cloud_vision{
 	var $api_key = "AIzaSyBsmdrzulnPMj2B9Zf9yEmy3e6kEgqgkPM";
 
 	function get_label($path){
-		
+		echo "get_labelが動いたよ";	
 		$image_path = $path;
 		//$image_path = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/toriaezu.jpg" ;
 		// リクエスト用のJSONを作成
