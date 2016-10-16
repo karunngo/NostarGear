@@ -24,7 +24,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 
         	//sqlでパス取得
-		$sql = "SELECT path from NostalGear ORDER BY date DESC LIMIT 1 WHERE name = " . $thing_name;
+		$sql = `SELECT path from NostalGear WHERE name ="` . $thing_name .`"ORDER BY date DESC LIMIT 1`";
         	$mysql->query($sql);
 		$sql_result = $mysql->fetch();
 
