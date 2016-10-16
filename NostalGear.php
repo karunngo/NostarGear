@@ -4,7 +4,7 @@ require_once("mysql.php");
 require_once("cloud_vision.php");
 
 $mysql =new MySQL;
-$cloud_vison = new Cloud_vision;
+$cloud_vison =new Cloud_vision;
 
 $save_url ="";
 $label_arr="";

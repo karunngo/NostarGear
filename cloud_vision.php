@@ -1,5 +1,5 @@
 <?php
-class Cloud_vison{
+class Cloud_vision{
 	var $api_key = "AIzaSyBsmdrzulnPMj2B9Zf9yEmy3e6kEgqgkPM";
 
 	function get_label($path){
