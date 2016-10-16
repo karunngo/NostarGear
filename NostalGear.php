@@ -31,20 +31,21 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 		echo $label_arr_j;
 		$label_arr = json_decode($label_arr_j,true);
 
-		$thing_name = $label_arr["responses"]["labelAnnotations"]["description"]; 		
-
+		$thing_name = $label_arr["responses"][0]["labelAnnotations"][0]["description"]; 		
+		echo "thing_name=" . $thing_name;
 
         	//sqlでパス取得
 		$sql = "SELECT path from NostalGear WHERE name = \"" . $thing_name ."\" ORDER BY date DESC LIMIT 1";
+		echo "sql=" . $sql;
         	$mysql->query($sql);
 		$sql_result = $mysql->fetch();
 
-		echo $sql_result;
+		print_r($sql_result);
 	
 		if($mysql->rows() == 0){
 			echo "error! " . $things_name ."の思い出はありません";
 		}else{
-			$vision_path = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/" . $$sql_result[0][`path`];
+			$vision_path = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/" . $sql_result["path"];
 			return $vision_path;
 		}
 /*テスト用
