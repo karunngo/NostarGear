@@ -6,13 +6,14 @@ require_once("cloud_vision.php");
 $mysql =new MySQL;
 $cloud_vison = new Cloud_vision;
 
+$save_url ="";
+$label_arr="";
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
-        if ($_POST["type"]=="vision"){
+        //テスト用if ($_POST["type"]=="vision"){
 		$image = $_FILES["file"]["name"];
 
-		//一旦保存する
-		$save_url = "";		
+		//ファイル一時保存
 		//move_uploaded_file($_FILES["file"]["tmp_name"], $save_url);
 
 
@@ -22,6 +23,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 	
 		//名前をgetする
 		$label_arr = json_decode($cloud_vision->get_label($save_url),true);
+
 
 		echo $label_arr;
 
@@ -41,7 +43,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 			$vision_path = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/" . $$sql_result[0][`path`];
 			return $vision_path
 		}
-	}
+	//テスト用}
 
 
 }else{
