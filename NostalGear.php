@@ -18,7 +18,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 
 		//テスト用
-		$save_url = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/apple/1016"
+		$save_url = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/apple/1016";
 
 	
 		//名前をgetする
@@ -41,7 +41,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 			echo "error! " . $things_name ."の思い出はありません";
 		}else{
 			$vision_path = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/" . $$sql_result[0][`path`];
-			return $vision_path
+			return $vision_path;
 		}
 	//テスト用}
 
