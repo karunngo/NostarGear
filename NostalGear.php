@@ -13,7 +13,12 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 		//一旦保存する
 		$save_url = "";		
-		move_uploaded_file($_FILES["file"]["tmp_name"], $save_url);
+		//move_uploaded_file($_FILES["file"]["tmp_name"], $save_url);
+
+
+		//テスト用
+		$save_url = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/apple/1016"
+
 	
 		//名前をgetする
 		$label_arr = json_decode($cloud_vision->get_label($save_url),true);
@@ -24,17 +29,17 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 
         	//sqlでパス取得
-		$sql = `SELECT path from NostalGear WHERE name ="` . $thing_name .`"ORDER BY date DESC LIMIT 1`";
+		$sql = `SELECT path from NostalGear WHERE name = "` . $thing_name .`" ORDER BY date DESC LIMIT 1`;
         	$mysql->query($sql);
 		$sql_result = $mysql->fetch();
 
 		echo $sql_result;
 	
 		if($mysql->rows() == 0){
-			//echo "error! " . $things_name ."の思い出はありません";
+			echo "error! " . $things_name ."の思い出はありません";
 		}else{
-			//$vision_path = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/" . $$sql_result[0][`path`];
-			//return $vision_path
+			$vision_path = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/" . $$sql_result[0][`path`];
+			return $vision_path
 		}
 	}
 
