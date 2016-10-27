@@ -11,24 +11,20 @@ $label_arr="";
 $label_arr_j="";
 $image = "";
 $thing_name="";
+$message="";
 
-/*テスト用
+
 if($_SERVER["REQUEST_METHOD"]=="POST"){
 	if ($_POST["type"]=="vision"){
-*/
-		$image = $_FILES["file"]["name"];
+		$image = $_FILES["picture"]["name"];
+		$save_url = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/toriaezu";
 
-		//ファイル一時保存
-		//move_uploaded_file($_FILES["file"]["tmp_name"], $save_url);
+		move_uploaded_file($_FILES["picture"]["tmp_name"], $save_url);
 
-
-		//テスト用
-		$save_url = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/apple/1016";
-
-	
 		//名前をgetする
 		$label_arr_j = $cloud_vision ->get_label($save_url);
 		$label_arr = json_decode($label_arr_j,true);
+
 
 		$thing_name = $label_arr["responses"][0]["labelAnnotations"][0]["description"]; 		
 
@@ -39,16 +35,16 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 	
 		if($mysql->rows() == 0){
-			echo "error! " . $things_name ."の思い出はありません";
+			$message = "error! " . $things_name ."の思い出はありません";
+			echo $message;
+			return $message;
 		}else{
 			$vision_path = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/" . $sql_result["path"];
 			return $vision_path;
 		}
-/*テスト用
 	}
 }else{
 echo "error! post以外の通信です";
 }
-*/
 ?>
 
