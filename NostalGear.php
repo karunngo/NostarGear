@@ -43,6 +43,11 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 			return $vision_path;
 		}
 	}
+
+	if ($_POST["type"]=="upload"){
+
+
+	}
 }else{
 echo "error! post以外の通信です";
 }
