@@ -40,7 +40,16 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 	}
 
 	if ($_POST["type"]=="upload"){
+		//ダブってるなー　改良したい
+		$label_arr_j = $cloud_vision ->get_label($_FILES["picture"]["tmp_name"]);
+                $label_arr = json_decode($label_arr_j,true);
 
+                $thing_name = $label_arr["responses"][0]["labelAnnotations"][0]["description"];
+
+		//動画変換&保存
+
+
+		//DBに書き込み
 
 	}
 }else{
