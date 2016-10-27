@@ -16,13 +16,8 @@ $message="";
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
 	if ($_POST["type"]=="vision"){
-		$image = $_FILES["picture"]["name"];
-		$save_url = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/toriaezu";
-
-		move_uploaded_file($_FILES["picture"]["tmp_name"], $save_url);
-
 		//名前をgetする
-		$label_arr_j = $cloud_vision ->get_label($save_url);
+		$label_arr_j = $cloud_vision ->get_label($_FILES["picture"]["tmp_name"]);
 		$label_arr = json_decode($label_arr_j,true);
 
 
