@@ -1,10 +1,15 @@
 <?php
-
+/*define('FFMPEG_BINARY', '/usr/local/bin/ffmpeg'); 
+define('FFMPEG_FLVTOOLS_BINARY', '/usr/bin/flvtool2'); 
+require_once 'ffmpeg.php'; 
+*/
 require_once("mysql.php");
 require_once("cloud_vision.php");
 
 $mysql =new MySQL;
 $cloud_vision =new Cloud_vision;
+//$ffmgeg =new ffmpeg();
+//$ffmpeg->on_error_die = FALSE; 
 
 $save_url ="";
 $label_arr="";
@@ -46,11 +51,33 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
                 $thing_name = $label_arr["responses"][0]["labelAnnotations"][0]["description"];
 
-		//動画変換&保存
+		$file_name =$thing_name . date('ymdHi') .".gif";
 
+		/*/動画変換&保存
+		$video_output_dir = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/"; 
+		$bitrate = 64; 
+		$samprate = 44100; 
+		
+		$ok = $ffmpeg->setInputFile($input_dir.$file); 
+    		if(!$ok) { 
+        		$message = $ffmpeg->getLastError()."<br />rn"; 
+        		$ffmpeg->reset(); 
+        		continue; 
+    		} 
+
+		
+ 		$ffmpeg->setVideoOutputDimensions(320, 240); 
+
+		*/
+
+		shell_exec("ffmpeg -ss 00:00:05 -i ".$_FILES["movie"]["tmp_name"]." -frames:v 300 image/". $file_name);		
 
 		//DBに書き込み
+		$sql = "INSERT INTO  NostalGear (name, path) VALUES (\'" . $thing_name ."\',\'".$file_name."\')";
+                $mysql->query($sql);
+                $sql_result = $mysql->fetch();
 
+		//iPhoneに返す
 	}
 }else{
 echo "error! post以外の通信です";
