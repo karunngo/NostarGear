@@ -6,6 +6,10 @@ require_once 'ffmpeg.php';
 require_once("mysql.php");
 require_once("cloud_vision.php");
 
+function func($var,$text) {
+	return array( 'name' => $var, 'message' => $text);
+}
+
 $mysql =new MySQL;
 $cloud_vision =new Cloud_vision;
 //$ffmgeg =new ffmpeg();
@@ -74,12 +78,18 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 		$vision_path = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/" . $file_name;
 
 
-		//DBに書き込み
-		$sql = "INSERT INTO  NostalGear (name, path) VALUES (\'" . $thing_name ."\',\'".$vision_path."\')";
-                $mysql->query($sql);
-                $sql_result = $mysql->fetch();
+		//ファイルが書き込めたか確認
+		if(file_exist($vision_path)){
+                        $sql = "INSERT INTO  NostalGear (name, path) VALUES (\'" . $thing_name ."\',\'".$vision_path."\')";
+                        $mysql->query($sql);
+                        
 
-		//iPhoneに返す
+			$result = func($thing_name,"");
+                        return $result;
+
+		}else{
+			$result = func($thing_name,"動画を保存できませんでした");
+                        return $result;
 	}
 }else{
 echo "error! post以外の通信です";
