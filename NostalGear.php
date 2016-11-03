@@ -82,11 +82,16 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 		if(file_exist($vision_path)){
                         $sql = "INSERT INTO  NostalGear (name, path) VALUES (\'" . $thing_name ."\',\'".$vision_path."\')";
                         $mysql->query($sql);
-                        
 
-			$result = func($thing_name,"");
-                        return $result;
-
+                 	//DBへの書き込みが出来たか確認       
+			if(empty($mysql->error){
+				$result = func($thing_name,"");
+                        	return $result;
+			}else{
+				//ここどうにかしたいな…要改良
+				$result = func($thing_name,"MySQLクエリでエラー発生(mysql.class)<br>".$mysql->mysql_errno().":".$mysql->mysql_error());
+				return $result;
+			}
 		}else{
 			$result = func($thing_name,"動画を保存できませんでした");
                         return $result;
