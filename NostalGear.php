@@ -71,9 +71,11 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 		*/
 
 		shell_exec("ffmpeg -ss 00:00:05 -i ".$_FILES["movie"]["tmp_name"]." -frames:v 300 image/". $file_name);		
+		$vision_path = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/" . $file_name;
+
 
 		//DBに書き込み
-		$sql = "INSERT INTO  NostalGear (name, path) VALUES (\'" . $thing_name ."\',\'".$file_name."\')";
+		$sql = "INSERT INTO  NostalGear (name, path) VALUES (\'" . $thing_name ."\',\'".$vision_path."\')";
                 $mysql->query($sql);
                 $sql_result = $mysql->fetch();
 
