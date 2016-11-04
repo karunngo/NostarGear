@@ -12,8 +12,6 @@ function func($var,$text) {
 
 $mysql =new MySQL;
 $cloud_vision =new Cloud_vision;
-//$ffmgeg =new ffmpeg();
-//$ffmpeg->on_error_die = FALSE; 
 
 $save_url ="";
 $label_arr="";
@@ -24,6 +22,7 @@ $message="";
 
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
+	echo "post到着(NostalGear.php)";
 	if ($_POST["type"]=="vision"){
 		//名前をgetする
 		$label_arr_j = $cloud_vision ->get_label($_FILES["picture"]["tmp_name"]);
@@ -43,7 +42,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 			echo $message;
 			return $message;
 		}else{
-			$vision_path = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/" . $sql_result["path"];
+			$vision_path = $sql_result["path"];
 			return $vision_path;
 		}
 	}
@@ -84,7 +83,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                         $mysql->query($sql);
 
                  	//DBへの書き込みが出来たか確認       
-			if(empty($mysql->error){
+			if(empty($mysql->error)){
 				$result = func($thing_name,"");
                         	return $result;
 			}else{
@@ -95,9 +94,10 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 		}else{
 			$result = func($thing_name,"動画を保存できませんでした");
                         return $result;
+		}
 	}
 }else{
-echo "error! post以外の通信です";
+	echo "error! post以外の通信です";
 }
 ?>
 
