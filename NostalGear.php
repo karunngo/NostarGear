@@ -19,14 +19,18 @@ $label_arr_j="";
 $image = "";
 $thing_name="";
 $message="";
-
+$save_url = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/tmp/toriaezu";
 
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
 	echo "post到着(NostalGear.php) POST=";
 	print var_dump($_POST);
-	if ($_POST["type"]=="vision"){
+	echo "\nFILE=";
+	print print_r($_FILES["picture"]);
+	print print_r($_FILES["movie"]);
+	if($_POST["type"]=="vision"){
 		//名前をgetする
+		
 		$label_arr_j = $cloud_vision ->get_label($_FILES["picture"]["tmp_name"]);
 		$label_arr = json_decode($label_arr_j,true);
 
@@ -52,7 +56,18 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 	if ($_POST["type"]=="upload"){
 		//ダブってるなー　改良したい
 	echo "type==uploadスタート";
-		$label_arr_j = $cloud_vision ->get_label($_FILES["picture"]["tmp_name"]);
+		if(empty($FILES["picture"]["tmp_name"])){
+		$message= "\n画像のアップロードできてないよ！";
+		echo $message;
+		return $message;}
+
+		if(file_exists($save_url)){
+		unlink($save_url);
+		} 
+
+-		move_uploaded_file($_FILES["picture"]["tmp_name"], $save_url);
+
+		$label_arr_j = $cloud_vision ->get_label($save_url);
                 $label_arr = json_decode($label_arr_j,true);
 
                 $thing_name = $label_arr["responses"][0]["labelAnnotations"][0]["description"];
