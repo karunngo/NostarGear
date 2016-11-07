@@ -21,8 +21,10 @@ $thing_name="";
 $message="";
 
 
+
 if($_SERVER["REQUEST_METHOD"]=="POST"){
-	echo "post到着(NostalGear.php)";
+	echo "post到着(NostalGear.php) POST=";
+	print var_dump($_POST);
 	if ($_POST["type"]=="vision"){
 		//名前をgetする
 		$label_arr_j = $cloud_vision ->get_label($_FILES["picture"]["tmp_name"]);
@@ -49,11 +51,12 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 	if ($_POST["type"]=="upload"){
 		//ダブってるなー　改良したい
+	echo "type==uploadスタート";
 		$label_arr_j = $cloud_vision ->get_label($_FILES["picture"]["tmp_name"]);
                 $label_arr = json_decode($label_arr_j,true);
 
                 $thing_name = $label_arr["responses"][0]["labelAnnotations"][0]["description"];
-
+	echo "\nthing_nameGet完了 名前は".$thing_name;
 		$file_name =$thing_name . date('ymdHi') .".gif";
 
 		/*/動画変換&保存
@@ -75,27 +78,34 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 		shell_exec("ffmpeg -ss 00:00:05 -i ".$_FILES["movie"]["tmp_name"]." -frames:v 300 image/". $file_name);		
 		$vision_path = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/" . $file_name;
-
+	echo "\nffmpeg動いたよ vision_path = ".$vision_path;
 
 		//ファイルが書き込めたか確認
-		if(file_exist($vision_path)){
+		if(file_exists($vision_path)){
                         $sql = "INSERT INTO  NostalGear (name, path) VALUES (\'" . $thing_name ."\',\'".$vision_path."\')";
                         $mysql->query($sql);
 
                  	//DBへの書き込みが出来たか確認       
 			if(empty($mysql->error)){
 				$result = func($thing_name,"");
+				echo "\nmessage=",$message." \nthing_name=".$thing_name;
                         	return $result;
 			}else{
 				//ここどうにかしたいな…要改良
 				$result = func($thing_name,"MySQLクエリでエラー発生(mysql.class)<br>".$mysql->mysql_errno().":".$mysql->mysql_error());
+				$message = "MySQLクエリでエラー発生(mysql.class)<br>".$mysql->mysql_errno().":".$mysql->mysql_error();
+				echo "\nmessage=",$message." \nthing_name=".$thing_name;
 				return $result;
+
 			}
 		}else{
 			$result = func($thing_name,"動画を保存できませんでした");
-                        return $result;
+                        $message = "動画を保存できませんでした。";
+			echo "\nmessage=",$message." \nthing_name=".$thing_name;
+			return $result;
 		}
 	}
+	echo "素通りしました…";
 }else{
 	echo "error! post以外の通信です";
 }
