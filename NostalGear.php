@@ -10,15 +10,20 @@ require_once("cloud_vision.php");
 
 Class NostalGear
 {
-
-   // private $save_path = "/home/karu/public_html/orf/images/tmp,jpg";
-
     public function upload($image,$movie) {
 
         echo "ファイルの保存を試みています";
         if (is_uploaded_file($image["tmp_name"])) {
-            if (move_uploaded_file($image["tmp_name"],"/home/karu/public_html/orf/images/". $image["name"])) {
+            if (move_uploaded_file($image["tmp_name"],"/home/karu/public_html/orf/images/".$image["name"])) {
                 echo "\n画像: " . $image["name"] . "をアップロードしました";
+
+        	//画像に移っていた物体の判別結果を取得
+        	$cloud_vision = NEW Cloud_vision();
+		$cv_result = $cloud_vision->post_image("http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/images/".$image["name"]);
+		var_dump($cv_result);
+		$object_name = $cv_result["responses"][0]["labelAnnotations"][0]["description"];
+		echo "\n画像に移っている物体:".$object_name;
+
             } else {
                 echo "画像ファイルをアップロードできません。";
             }

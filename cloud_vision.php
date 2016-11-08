@@ -1,9 +1,10 @@
 <?php
 class Cloud_vision{
-	function get_label($image_path){
+	function post_image($image_path){
 		$api_key = "AIzaSyBsmdrzulnPMj2B9Zf9yEmy3e6kEgqgkPM";	
 		$path = $image_path;
 		//$max_result = $number;
+		//$path = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/images/1016.jpg";
 		
 		// リクエスト用のJSONを作成
         	$json = json_encode( array(
