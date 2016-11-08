@@ -44,7 +44,7 @@ Class NostalGear
             if ($is_movie_saved) {
 
 		//gif変換
-		$saved_movie_name =$movie["name"].date('ymdHi').".gif";
+		$saved_movie_name =$movie["name"].date('_d_H:i').".gif";
 		shell_exec("ffmpeg -ss 00:00:00 -i movies/".$movie["name"]." -frames:v 300 movies/". $saved_movie_name);
 
 		//ここで保存出来たか確認したいのに、できない…
@@ -74,7 +74,7 @@ Class NostalGear
 
 		//DBに保存
 		$mysql = NEW MySQL();
-		$sql = 'INSERT INTO  NostalGear (name, path) VALUES (\'' . $object_name .'\',\''.$movie_url.'\')';
+		$sql = 'INSERT INTO  NostalGear (name, path) VALUES (\'' . $upload_result["name"] .'\',\''.$movie_url.'\')';
                 $mysql->query($sql);
 
                 if(isset($mysql->error)){

@@ -32,7 +32,7 @@ class MySQL{
 	function query($sql){
 		$this->m_Rows =mysqli_query($this->m_con,$sql);
 		if(!$this->m_Rows){
-			die("MySQLクエリでエラー発生(mysql.class)<br>".mysql_errno().":".mysql_error());
+			die("MySQLクエリでエラー発生(mysql.class)<br>".mysqli_errno().":".mysqli_error());
 		}
 		return $this->m_Rows;
 	}
@@ -69,3 +69,4 @@ class MySQL{
 	}
 }
 ?>
+
