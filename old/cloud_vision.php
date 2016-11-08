@@ -1,9 +1,9 @@
 <?php
 class Cloud_vision{
-	function get_label($path){
+	function post_cloud_vision($path){
 		$api_key = "AIzaSyBsmdrzulnPMj2B9Zf9yEmy3e6kEgqgkPM";	
 		$image_path = $path;
-		//$image_path = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/image/toriaezu.jpg" ;
+		
 		// リクエスト用のJSONを作成
         	$json = json_encode( array(
         	        "requests" => array(
@@ -39,7 +39,10 @@ class Cloud_vision{
 	        // 取得したデータ
 	        $json = substr( $res1, $res2["header_size"] ) ;                         // 取得したJSON
 	        $header = substr( $res1, 0, $res2["header_size"] ) ;            // レスポンスヘッダー
-		return $json;
+		
+		//jsonを配列化して返す
+		$arr = json_decode($json,true)
+		return $arr;
 	}
 }
 
