@@ -17,7 +17,7 @@ Class NostalGear
 	$message="";//エラーメッセージ
 
 	$is_image_saved = false; //画像がサーバに保存されたか
-	$is_movie_saved = false; //動画がサーバに保存されたか
+	$is_gifmovie_saved = false; //動画がgif変換されてサーバに保存されたか
 
         echo "ファイルの保存を試みています";
 
@@ -29,7 +29,7 @@ Class NostalGear
             if ($is_image_saved) {
                 echo "\n画像: " . $image["name"] . "をアップロードしました";
             } else {
-                echo "画像ファイルをアップロードできません。";
+                echo "画像ファイルをアップロードができません。";
             }
 
         } else {
@@ -45,7 +45,16 @@ Class NostalGear
 
             if ($is_movie_saved) {
                 echo "\n動画: " . $movie["name"] . "をアップロードしました";
-            } else {
+
+		//gif変換
+		$file_name =$movie["name"].date('ymdHi').".gif";
+		shell_exec("ffmpeg -ss 00:00:00 -i movies/".$movie["name"]." -frames:v 300 movies/". $file_name);
+
+		//ここで保存出来たか確認したいのに、できない…
+		//$is_gitmovie_saved=$file_exists('movies'$file_name);
+		$is_gifmovie_saved = true;
+
+	    } else {
                 echo "動画ファイルをアップロードできません。";
             }
 
@@ -57,9 +66,9 @@ Class NostalGear
 	
 	
 	//画像と動画、両方保存できたら
-	if ($is_image_saved && $is_movie_saved){
+	if ($is_image_saved && $is_gifmovie_saved){
 
-		$movie_url = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/movies/".$movie["name"];	
+		$movie_url = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/movies/".$file_name;	
 
 		//画像をCloud Visionに投げ、判別結果を取得
                 $cloud_vision = NEW Cloud_vision();
