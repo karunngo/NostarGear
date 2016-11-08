@@ -110,8 +110,6 @@ $nostalgear = new NostalGear();
 
 if ($type == 'upload') {
     echo "upload中";
-    var_dump($image);
-    Var_dump($movie);
     $nostalgear->upload($image,$movie);
 } else if ($type == 'vision'){
     echo "vision中";
