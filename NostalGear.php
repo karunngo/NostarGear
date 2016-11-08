@@ -7,10 +7,14 @@
  */
 
 require_once("cloud_vision.php");
+require_once("mysql.php");
 
 Class NostalGear
 {
     public function upload($image,$movie) {
+
+	$object_name="";//画像から判別した物の名前
+	$message="";//エラーメッセージ
 
 	$is_image_saved = false; //画像がサーバに保存されたか
 	$is_movie_saved = false; //動画がサーバに保存されたか
@@ -54,7 +58,9 @@ Class NostalGear
 	
 	//画像と動画、両方保存できたら
 	if ($is_image_saved && $is_movie_saved){
-	
+
+		$movie_url = "http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/movies/".$movie["name"];	
+
 		//画像をCloud Visionに投げ、判別結果を取得
                 $cloud_vision = NEW Cloud_vision();
                 $cv_result = $cloud_vision->post_image("http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/images/".$image["name"]);
@@ -62,7 +68,19 @@ Class NostalGear
                 echo "\n画像に移っている物体:".$object_name;
 
 		//DBに保存
-		
+		$mysql = NEW MySQL();
+		echo "\nmovie_url:".$movie_url;
+		$sql = 'INSERT INTO  NostalGear (name, path) VALUES (\'' . $object_name .'\',\''.$movie_url.'\')';
+		echo "\nsql:".$sql;
+                $mysql->query($sql);
+
+                if(empty($mysql->error)){
+			echo"\nMySQLクエリ成功";
+                }else{
+                	echo "\nMySQLクエリでエラー発生(mysql.class)<br>".$mysql->mysqli_error;
+		}
+
+	//物体の名前とメッセージを返す
 
 	}
 
