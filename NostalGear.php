@@ -12,35 +12,60 @@ Class NostalGear
 {
     public function upload($image,$movie) {
 
+	$is_image_saved = false; //画像がサーバに保存されたか
+	$is_movie_saved = false; //動画がサーバに保存されたか
+
         echo "ファイルの保存を試みています";
+
+	//画像の保存
         if (is_uploaded_file($image["tmp_name"])) {
-            if (move_uploaded_file($image["tmp_name"],"/home/karu/public_html/orf/images/".$image["name"])) {
+
+	    $is_image_saved = move_uploaded_file($image["tmp_name"],"/home/karu/public_html/orf/images/".$image["name"]);
+
+            if ($is_image_saved) {
                 echo "\n画像: " . $image["name"] . "をアップロードしました";
-
-        	//画像に移っていた物体の判別結果を取得
-        	$cloud_vision = NEW Cloud_vision();
-		$cv_result = $cloud_vision->post_image("http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/images/".$image["name"]);
-		var_dump($cv_result);
-		$object_name = $cv_result["responses"][0]["labelAnnotations"][0]["description"];
-		echo "\n画像に移っている物体:".$object_name;
-
             } else {
                 echo "画像ファイルをアップロードできません。";
             }
+
         } else {
+
             echo "画像ファイルが選択されていません。";
+
         }
 	
+	//動画の保存
 	if (is_uploaded_file($movie["tmp_name"])) {
-            if (move_uploaded_file($movie["tmp_name"],"/home/karu/public_html/orf/movies/". $movie["name"])) {
+	
+	    $is_movie_saved = move_uploaded_file($movie["tmp_name"],"/home/karu/public_html/orf/movies/". $movie["name"]);
+
+            if ($is_movie_saved) {
                 echo "\n動画: " . $movie["name"] . "をアップロードしました";
             } else {
                 echo "動画ファイルをアップロードできません。";
             }
+
         } else {
+
             echo "動画ファイルが選択されていません。";
+
         }
 	
+	
+	//画像と動画、両方保存できたら
+	if ($is_image_saved && $is_movie_saved){
+	
+		//画像をCloud Visionに投げ、判別結果を取得
+                $cloud_vision = NEW Cloud_vision();
+                $cv_result = $cloud_vision->post_image("http://life-cloud.ht.sfc.keio.ac.jp/~karu/orf/images/".$image["name"]);
+                $object_name = $cv_result["responses"][0]["labelAnnotations"][0]["description"];
+                echo "\n画像に移っている物体:".$object_name;
+
+		//DBに保存
+		
+
+	}
+
 
 
     }
