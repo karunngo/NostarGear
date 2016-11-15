@@ -11,7 +11,7 @@ require_once("mysql.php");
 
 Class NostalGear
 {
-    public function upload($image,$movie) {
+    public function upload($image,$movie,$lati,$longi) {
 
 	$upload_result = array(
 	  "name"=>"",
@@ -74,7 +74,9 @@ Class NostalGear
 
 		//DBに保存
 		$mysql = NEW MySQL();
-		$sql = 'INSERT INTO  NostalGear (name, path) VALUES (\'' . $upload_result["name"] .'\',\''.$movie_url.'\')';
+		$deli = '\',\''; 
+		//デリミタ。sql文の'---','---'の接合部分を見づらいので、記号にした
+		$sql = 'INSERT INTO  NostalGear (name, path, latitude, longitude) VALUES (\''.$upload_result["name"].$deli.$movie_url.$deli.$lati.$deli.$longi.'\')';
                 $mysql->query($sql);
 
                 if(isset($mysql->error)){
@@ -94,13 +96,15 @@ Class NostalGear
 }
 
 $type  = $_POST['request_type'];
+$lati  = $_POST['latitude'];
+$longi = $_POST['longitude'];
 $image = $_FILES['object_image'];
 $movie = $_FILES['object_movie'];
 
 $nostalgear = new NostalGear();
 
 if ($type == 'upload') {
-    $nostalgear->upload($image,$movie);
+    $nostalgear->upload($image,$movie,$lati,$longi);
 } else if ($type == 'vision'){
     $nostalgear->vision($image);
 } else {
