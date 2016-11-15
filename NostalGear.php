@@ -45,7 +45,7 @@ Class NostalGear
 
 		//gif変換
 		$saved_movie_name =$movie["name"].date('_d_H:i').".gif";
-		shell_exec("ffmpeg -ss 00:00:00 -i movies/".$movie["name"]." -frames:v 300 movies/". $saved_movie_name);
+		shell_exec("ffmpeg -ss 00:00:00 -i movies/".$movie["name"]." -s 200x420 -frames:v 300 movies/". $saved_movie_name);
 
 		//ここで保存出来たか確認したいのに、できない…
 		//$is_gitmovie_saved=$file_exists('movies'$file_name);
